@@ -1,0 +1,243 @@
+.incident-report {
+  min-height: calc(100vh - 200px);
+}
+
+.report-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.report-header svg {
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.report-header h1 {
+  font-size: 36px;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.report-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 48px;
+  padding: 0 20px;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.4;
+  transition: all 0.3s;
+}
+
+.progress-step.active {
+  opacity: 1;
+}
+
+.step-number {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  transition: all 0.3s;
+}
+
+.progress-step.active .step-number {
+  background: var(--accent);
+  color: var(--background);
+  border-color: var(--accent);
+}
+
+.progress-step span {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.progress-line {
+  width: 80px;
+  height: 2px;
+  background: var(--border);
+  margin: 0 16px;
+}
+
+.report-form {
+  max-width: 800px;
+  margin: 0 auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+}
+
+.form-step h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+.step-description {
+  color: var(--text-secondary);
+  margin-bottom: 32px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.form-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+textarea {
+  resize: vertical;
+  font-family: inherit;
+}
+
+.entity-select-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.entity-select-card {
+  padding: 20px;
+  background: var(--background);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: center;
+}
+
+.entity-select-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.entity-select-card.selected {
+  border-color: var(--accent);
+  background: rgba(0, 255, 136, 0.1);
+}
+
+.entity-select-card h4 {
+  font-size: 16px;
+  margin-bottom: 12px;
+}
+
+.entity-threat {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.location-select-grid {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.location-select-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: var(--background);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.location-select-card:hover {
+  border-color: var(--accent);
+}
+
+.location-select-card.selected {
+  border-color: var(--accent);
+  background: rgba(0, 255, 136, 0.1);
+}
+
+.location-select-card h4 {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.location-select-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.review-section {
+  margin-bottom: 32px;
+  padding: 24px;
+  background: var(--background);
+  border-radius: 12px;
+}
+
+.review-section h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: var(--accent);
+}
+
+.review-item {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  line-height: 1.6;
+}
+
+.review-item:last-child {
+  border-bottom: none;
+}
+
+.review-item strong {
+  color: var(--text-secondary);
+  margin-right: 8px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 32px;
+}
+
+@media (max-width: 768px) {
+  .report-progress {
+    overflow-x: auto;
+  }
+
+  .progress-step span {
+    display: none;
+  }
+
+  .progress-line {
+    width: 40px;
+    margin: 0 8px;
+  }
+
+  .report-form {
+    padding: 24px;
+  }
+
+  .entity-select-grid {
+    grid-template-columns: 1fr;
+  }
+}

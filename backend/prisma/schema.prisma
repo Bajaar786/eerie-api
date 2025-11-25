@@ -1,0 +1,111 @@
+// Prisma schema for Eerie API - Supernatural Entity Database
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  username  String   @unique
+  password  String
+  role      String   @default("USER") // USER, INVESTIGATOR, ADMIN
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  incidents Incident[]
+  
+  @@map("users")
+}
+
+model Entity {
+  id             String   @id @default(uuid())
+  name           String
+  classification String   // Apparition, Cryptid, Demonic, Extraterrestrial, Undead, Other
+  threatLevel    Int      @default(1) // 1-10 scale
+  description    String
+  abilities      String   // JSON string array
+  weaknesses     String   // JSON string array
+  firstSighted   DateTime?
+  lastSighted    DateTime?
+  status         String   @default("ACTIVE") // ACTIVE, DORMANT, CONTAINED, NEUTRALIZED, UNKNOWN
+  imageUrl       String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  incidents Incident[]
+  locations EntityLocation[]
+  
+  @@map("entities")
+}
+
+model Location {
+  id          String   @id @default(uuid())
+  name        String
+  address     String?
+  city        String
+  state       String?
+  country     String
+  latitude    Float
+  longitude   Float
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  incidents Incident[]
+  entities  EntityLocation[]
+  
+  @@map("locations")
+}
+
+model Incident {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  date        DateTime
+  severity    Int      @default(1) // 1-10 scale
+  witnesses   Int      @default(0)
+  verified    Boolean  @default(false)
+  evidence    String   // JSON string array - URLs to evidence files
+  status      String   @default("INVESTIGATING") // REPORTED, INVESTIGATING, CONFIRMED, RESOLVED, DEBUNKED
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  entityId   String
+  entity     Entity   @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  
+  reportedById String
+  reportedBy   User   @relation(fields: [reportedById], references: [id], onDelete: Cascade)
+  
+  @@map("incidents")
+}
+
+model EntityLocation {
+  id         String   @id @default(uuid())
+  frequency  String   // How often entity appears here
+  lastSeen   DateTime?
+  createdAt  DateTime @default(now())
+
+  entityId   String
+  entity     Entity   @relation(fields: [entityId], references: [id], onDelete: Cascade)
+  
+  locationId String
+  location   Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  
+  @@unique([entityId, locationId])
+  @@map("entity_locations")
+}
+
+// SQLite doesn't support enums, so we use String fields with comments
+// UserRole: USER, INVESTIGATOR, ADMIN
+// EntityClassification: Apparition, Cryptid, Demonic, Extraterrestrial, Undead, Other
+// EntityStatus: ACTIVE, DORMANT, CONTAINED, NEUTRALIZED, UNKNOWN
+// IncidentStatus: REPORTED, INVESTIGATING, CONFIRMED, RESOLVED, DEBUNKED

@@ -1,0 +1,141 @@
+.entity-modal {
+  padding: 0;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
+.modal-header h2 {
+  font-size: 32px;
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+
+.modal-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.modal-body {
+  padding: 32px;
+}
+
+.threat-indicator {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border: 2px solid;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.threat-indicator > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.threat-label {
+  font-size: 12px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.threat-value {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.entity-description-full {
+  margin-bottom: 24px;
+  padding: 20px;
+  background: var(--background);
+  border-radius: 8px;
+  line-height: 1.8;
+}
+
+.entity-dates {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+  padding: 20px;
+  background: var(--background);
+  border-radius: 8px;
+}
+
+.date-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--text-secondary);
+}
+
+.expandable-section {
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.section-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: var(--background);
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.section-header:hover {
+  background: var(--surface-hover);
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title h3 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.section-content {
+  padding: 20px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.ability-list, .weakness-list {
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.ability-list li {
+  padding: 12px 16px;
+  background: rgba(0, 255, 136, 0.1);
+  border-left: 3px solid var(--accent);
+  border-radius: 4px;
+}
+
+.weakness-list li {
+  padding: 12px 16px;
+  background: rgba(255, 68, 68, 0.1);
+  border-left: 3px solid var(--danger);
+  border-radius: 4px;
+}
