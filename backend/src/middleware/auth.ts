@@ -32,3 +32,17 @@ export const authorize = (...roles: string[]) => {
     next();
   };
 };
+
+// Check if user can contribute (CONTRIBUTOR or higher)
+export const canContribute = (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user) {
+    return next(new AppError('Authentication required', 401));
+  }
+
+  const contributorRoles = ['CONTRIBUTOR', 'MODERATOR', 'ADMIN'];
+  if (!contributorRoles.includes(req.user.role)) {
+    return next(new AppError('Contributor role required', 403));
+  }
+
+  next();
+};

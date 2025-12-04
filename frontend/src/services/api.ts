@@ -1,6 +1,8 @@
 import axios from 'axios';
 import type { Entity, Incident, Location, EntityStats, SearchFilters, AuthResponse } from '../types';
 
+
+
 const api = axios.create({
   baseURL: '/api',
   headers: {
@@ -60,6 +62,34 @@ export const locationAPI = {
   create: (data: Partial<Location>) => api.post<Location>('/locations', data),
   update: (id: string, data: Partial<Location>) => api.put<Location>(`/locations/${id}`, data),
   delete: (id: string) => api.delete(`/locations/${id}`),
+};
+
+// Suggestions
+export const suggestionAPI = {
+  getAll: (params?: any) => api.get('/suggestions', { params }),
+  getById: (id: string) => api.get(`/suggestions/${id}`),
+  submit: (data: any) => api.post('/suggestions', data),
+  review: (id: string, status: string, reviewComment?: string) =>
+    api.patch(`/suggestions/${id}/review`, { status, reviewComment }),
+  delete: (id: string) => api.delete(`/suggestions/${id}`),
+  getPendingCount: () => api.get('/suggestions/pending-count'),
+};
+
+// Votes
+export const voteAPI = {
+  voteOnIncident: (incidentId: string, voteType: string) =>
+    api.post(`/votes/incidents/${incidentId}`, { voteType }),
+  getUserVote: (incidentId: string) => api.get(`/votes/incidents/${incidentId}/user-vote`),
+  getStats: (incidentId: string) => api.get(`/votes/incidents/${incidentId}/stats`),
+};
+
+// Users
+export const userAPI = {
+  getProfile: (id: string) => api.get(`/users/${id}`),
+  getContributions: (id: string) => api.get(`/users/${id}/contributions`),
+  updateProfile: (id: string, data: any) => api.put(`/users/${id}`, data),
+  getStats: () => api.get('/users/me/stats'),
+  getLeaderboard: (limit?: number) => api.get('/users/leaderboard', { params: { limit } }),
 };
 
 export default api;

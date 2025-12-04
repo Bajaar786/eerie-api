@@ -154,6 +154,16 @@ export default function Dashboard() {
                     <span>Severity: {incident.severity}/10</span>
                     <span>•</span>
                     <span>{incident.witnesses} witnesses</span>
+                    {incident.credibilityScore !== undefined && (
+                      <>
+                        <span>•</span>
+                        <span style={{ 
+                          color: incident.credibilityScore >= 5 ? '#00FF88' : incident.credibilityScore >= 0 ? '#FFB800' : '#FF4444' 
+                        }}>
+                          Credibility: {incident.credibilityScore > 0 ? '+' : ''}{incident.credibilityScore}
+                        </span>
+                      </>
+                    )}
                   </div>
                 </div>
               ))}

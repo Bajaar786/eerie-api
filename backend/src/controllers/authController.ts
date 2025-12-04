@@ -32,7 +32,8 @@ export const register = async (req: Request, res: Response) => {
       email,
       username,
       password: hashedPassword,
-      role: 'USER',
+      role: 'VISITOR',
+      reputationScore: 0,
     },
     select: {
       id: true,

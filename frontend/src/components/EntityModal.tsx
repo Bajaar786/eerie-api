@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Entity } from '../types'
-import { X, AlertTriangle, Shield, Zap, MapPin, Calendar, ChevronDown, ChevronUp } from 'lucide-react'
+import { X, AlertTriangle, Shield, Zap, Calendar, ChevronDown, ChevronUp } from 'lucide-react'
 import { format } from 'date-fns'
 import './EntityModal.css'
 

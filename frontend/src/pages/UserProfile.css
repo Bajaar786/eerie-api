@@ -1,0 +1,295 @@
+.user-profile-page {
+  min-height: calc(100vh - 200px);
+  padding: 40px 0;
+}
+
+.profile-header {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  margin-bottom: 40px;
+  padding: 32px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.profile-avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-info h1 {
+  font-size: 32px;
+  margin-bottom: 12px;
+  color: var(--accent);
+}
+
+.profile-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.role-badge {
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.reputation-level {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.profile-bio {
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.profile-joined {
+  color: var(--text-secondary);
+  font-size: 14px;
+}
+
+.reputation-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.reputation-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  color: var(--accent);
+}
+
+.reputation-header h2 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.reputation-score-large {
+  font-size: 72px;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.reputation-progress {
+  max-width: 400px;
+  margin: 0 auto;
+  height: 12px;
+  background: var(--background);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.reputation-bar {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.profile-sections {
+  display: grid;
+  gap: 32px;
+}
+
+.profile-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.profile-section h2 {
+  font-size: 20px;
+  margin-bottom: 24px;
+  color: var(--accent);
+}
+
+.suggestions-list,
+.incidents-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.suggestion-item,
+.incident-item {
+  padding: 20px;
+  background: var(--background);
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+
+.suggestion-item:hover,
+.incident-item:hover {
+  border-color: var(--accent);
+}
+
+.suggestion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.suggestion-header h4,
+.incident-item h4 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.suggestion-description,
+.incident-item p {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.suggestion-meta,
+.incident-meta {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.status-pending {
+  background: rgba(251, 191, 36, 0.2);
+  color: #FCD34D;
+}
+
+.status-approved {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ADE80;
+}
+
+.status-rejected {
+  background: rgba(239, 68, 68, 0.2);
+  color: #F87171;
+}
+
+.status-reported,
+.status-investigating {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60A5FA;
+}
+
+.status-confirmed {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ADE80;
+}
+
+.status-resolved {
+  background: rgba(156, 163, 175, 0.2);
+  color: #D1D5DB;
+}
+
+.status-debunked {
+  background: rgba(239, 68, 68, 0.2);
+  color: #F87171;
+}
+
+.empty-message {
+  text-align: center;
+  padding: 40px;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-meta {
+    justify-content: center;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}

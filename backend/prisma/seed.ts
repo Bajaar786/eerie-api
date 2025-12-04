@@ -16,25 +16,46 @@ async function main() {
       username: 'admin',
       password: hashedPassword,
       role: 'ADMIN',
+      reputationScore: 1000,
+      bio: 'System administrator and lead investigator',
     },
   });
 
   console.log('✅ Admin user created');
 
-  // Create investigator user
-  const investigatorPassword = await bcrypt.hash('investigator123', 10);
-  const investigatorUser = await prisma.user.upsert({
-    where: { email: 'investigator@eerie-api.com' },
+  // Create moderator user
+  const moderatorPassword = await bcrypt.hash('moderator123', 10);
+  const moderatorUser = await prisma.user.upsert({
+    where: { email: 'moderator@eerie-api.com' },
     update: {},
     create: {
-      email: 'investigator@eerie-api.com',
-      username: 'investigator',
-      password: investigatorPassword,
-      role: 'INVESTIGATOR',
+      email: 'moderator@eerie-api.com',
+      username: 'moderator',
+      password: moderatorPassword,
+      role: 'MODERATOR',
+      reputationScore: 500,
+      bio: 'Community moderator and entity reviewer',
     },
   });
 
-  console.log('✅ Investigator user created');
+  console.log('✅ Moderator user created');
+
+  // Create contributor user
+  const contributorPassword = await bcrypt.hash('contributor123', 10);
+  const contributorUser = await prisma.user.upsert({
+    where: { email: 'contributor@eerie-api.com' },
+    update: {},
+    create: {
+      email: 'contributor@eerie-api.com',
+      username: 'contributor',
+      password: contributorPassword,
+      role: 'CONTRIBUTOR',
+      reputationScore: 250,
+      bio: 'Active community contributor',
+    },
+  });
+
+  console.log('✅ Contributor user created');
 
   // Create locations
   const locations = await Promise.all([
@@ -345,7 +366,7 @@ async function main() {
   console.log('✅ Entity-location relationships created');
 
   // Create sample incidents
-  await Promise.all([
+  const incidents = await Promise.all([
     prisma.incident.create({
       data: {
         title: 'Lady in White Sighting - Fifth Floor',
@@ -358,7 +379,8 @@ async function main() {
         status: 'CONFIRMED',
         entityId: entities[0].id,
         locationId: locations[0].id,
-        reportedById: investigatorUser.id,
+        reportedById: moderatorUser.id,
+        credibilityScore: 3,
       },
     }),
     prisma.incident.create({
@@ -373,7 +395,8 @@ async function main() {
         status: 'CONFIRMED',
         entityId: entities[1].id,
         locationId: locations[2].id,
-        reportedById: investigatorUser.id,
+        reportedById: moderatorUser.id,
+        credibilityScore: 5,
       },
     }),
     prisma.incident.create({
@@ -388,12 +411,107 @@ async function main() {
         status: 'INVESTIGATING',
         entityId: entities[2].id,
         locationId: locations[3].id,
-        reportedById: adminUser.id,
+        reportedById: contributorUser.id,
+        credibilityScore: -2,
       },
     }),
   ]);
 
   console.log('✅ Incidents created');
+
+  // Create sample votes
+  await Promise.all([
+    prisma.incidentVote.create({
+      data: {
+        incidentId: incidents[0].id,
+        userId: contributorUser.id,
+        voteType: 'CREDIBLE',
+      },
+    }),
+    prisma.incidentVote.create({
+      data: {
+        incidentId: incidents[0].id,
+        userId: adminUser.id,
+        voteType: 'CREDIBLE',
+      },
+    }),
+    prisma.incidentVote.create({
+      data: {
+        incidentId: incidents[2].id,
+        userId: moderatorUser.id,
+        voteType: 'NOT_CREDIBLE',
+      },
+    }),
+  ]);
+
+  console.log('✅ Incident votes created');
+
+  // Create sample entity suggestions
+  await Promise.all([
+    prisma.entitySuggestion.create({
+      data: {
+        name: 'The Flatwoods Monster',
+        classification: 'Extraterrestrial',
+        threatLevel: 6,
+        description: 'A large humanoid creature with a spade-shaped head, reported in Flatwoods, West Virginia in 1952.',
+        abilities: JSON.stringify(['Levitation', 'Toxic gas emission', 'Glowing eyes']),
+        weaknesses: JSON.stringify(['Unknown']),
+        firstSighted: new Date('1952-09-12'),
+        sourceCitation: 'Feschino, F. (2004). The Braxton County Monster. Quarrier Press.',
+        status: 'PENDING',
+        submittedById: contributorUser.id,
+      },
+    }),
+    prisma.entitySuggestion.create({
+      data: {
+        name: 'Spring-Heeled Jack',
+        classification: 'Other',
+        threatLevel: 5,
+        description: 'Victorian-era entity known for incredible jumping ability and terrorizing London.',
+        abilities: JSON.stringify(['Superhuman jumping', 'Fire breathing', 'Sharp claws']),
+        weaknesses: JSON.stringify(['Unknown']),
+        firstSighted: new Date('1837-01-01'),
+        lastSighted: new Date('1904-01-01'),
+        sourceCitation: 'Dash, M. (2000). Spring-Heeled Jack: To Victorian Bugaboo from Suburban Ghost.',
+        status: 'APPROVED',
+        reviewComment: 'Excellent historical research!',
+        reviewedAt: new Date('2024-11-20'),
+        submittedById: contributorUser.id,
+      },
+    }),
+  ]);
+
+  console.log('✅ Entity suggestions created');
+
+  // Create contribution logs
+  await Promise.all([
+    prisma.contributionLog.create({
+      data: {
+        userId: contributorUser.id,
+        actionType: 'ENTITY_SUGGESTED',
+        pointsEarned: 10,
+        description: 'Suggested entity: The Flatwoods Monster',
+      },
+    }),
+    prisma.contributionLog.create({
+      data: {
+        userId: contributorUser.id,
+        actionType: 'ENTITY_APPROVED',
+        pointsEarned: 50,
+        description: 'Entity approved: Spring-Heeled Jack',
+      },
+    }),
+    prisma.contributionLog.create({
+      data: {
+        userId: contributorUser.id,
+        actionType: 'VOTE_CAST',
+        pointsEarned: 1,
+        description: 'Voted on incident: Lady in White Sighting - Fifth Floor',
+      },
+    }),
+  ]);
+
+  console.log('✅ Contribution logs created');
   console.log('🎃 Database seeding completed successfully!');
 }
 

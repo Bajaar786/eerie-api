@@ -47,4 +47,10 @@ export type IncidentStatus =
   | 'RESOLVED' 
   | 'DEBUNKED';
 
-export type UserRole = 'USER' | 'INVESTIGATOR' | 'ADMIN';
+export type UserRole = 'VISITOR' | 'CONTRIBUTOR' | 'MODERATOR' | 'ADMIN';
+
+export type SuggestionStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+
+export type VoteType = 'CREDIBLE' | 'NOT_CREDIBLE';
+
+export type ActionType = 'ENTITY_SUGGESTED' | 'ENTITY_APPROVED' | 'INCIDENT_REPORTED' | 'VOTE_CAST';

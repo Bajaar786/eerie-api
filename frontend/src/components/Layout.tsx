@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
-import { Ghost, Home, Search, MapPin, FileText, LogOut } from 'lucide-react'
+import { Ghost, Home, Search, FileText, LogOut, Lightbulb, Shield } from 'lucide-react'
 import './Layout.css'
 
 export default function Layout() {
@@ -27,10 +27,16 @@ export default function Layout() {
               <Search size={20} />
               <span>Entities</span>
             </Link>
-            <Link to="/map" className={isActive('/map') ? 'active' : ''}>
-              <MapPin size={20} />
-              <span>Map</span>
+            <Link to="/suggest" className={isActive('/suggest') ? 'active' : ''}>
+              <Lightbulb size={20} />
+              <span>Suggest</span>
             </Link>
+            {user && (user.role === 'MODERATOR' || user.role === 'ADMIN') && (
+              <Link to="/moderation" className={isActive('/moderation') ? 'active' : ''}>
+                <Shield size={20} />
+                <span>Moderate</span>
+              </Link>
+            )}
             <Link to="/report" className={isActive('/report') ? 'active' : ''}>
               <FileText size={20} />
               <span>Report</span>

@@ -20,7 +20,11 @@ export type IncidentStatus =
   | 'RESOLVED' 
   | 'DEBUNKED';
 
-export type UserRole = 'USER' | 'INVESTIGATOR' | 'ADMIN';
+export type UserRole = 'VISITOR' | 'CONTRIBUTOR' | 'MODERATOR' | 'ADMIN';
+
+export type SuggestionStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
+
+export type VoteType = 'CREDIBLE' | 'NOT_CREDIBLE';
 
 export interface Entity {
   id: string;
@@ -64,6 +68,7 @@ export interface Incident {
   verified: boolean;
   evidence: string[];
   status: IncidentStatus;
+  credibilityScore: number;
   entityId: string;
   locationId: string;
   reportedById: string;
@@ -89,7 +94,64 @@ export interface User {
   email: string;
   username: string;
   role: UserRole;
+  reputationScore: number;
+  bio?: string;
   createdAt: string;
+}
+
+export interface EntitySuggestion {
+  id: string;
+  name: string;
+  classification: EntityClassification;
+  threatLevel: number;
+  description: string;
+  abilities: string[];
+  weaknesses: string[];
+  firstSighted: string | null;
+  lastSighted: string | null;
+  imageUrl: string | null;
+  sourceCitation: string;
+  status: SuggestionStatus;
+  reviewComment: string | null;
+  reviewedAt: string | null;
+  submittedById: string;
+  submittedBy?: User;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IncidentVote {
+  id: string;
+  voteType: VoteType;
+  incidentId: string;
+  userId: string;
+  createdAt: string;
+}
+
+export interface ContributionLog {
+  id: string;
+  actionType: string;
+  pointsEarned: number;
+  description: string;
+  createdAt: string;
+}
+
+export interface UserProfile extends User {
+  _count: {
+    incidents: number;
+    entitySuggestions: number;
+    incidentVotes: number;
+  };
+}
+
+export interface UserStats {
+  reputationScore: number;
+  totalSuggestions: number;
+  approvedSuggestions: number;
+  totalIncidents: number;
+  totalVotes: number;
+  totalContributions: number;
+  totalPointsEarned: number;
 }
 
 export interface AuthResponse {

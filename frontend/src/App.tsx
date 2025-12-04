@@ -7,6 +7,9 @@ import EntityDetail from './pages/EntityDetail'
 import IncidentReport from './pages/IncidentReport'
 import LocationMap from './pages/LocationMap'
 import Login from './pages/Login'
+import SuggestEntity from './pages/SuggestEntity'
+import ModerationDashboard from './pages/ModerationDashboard'
+import UserProfile from './pages/UserProfile'
 
 function App() {
   return (
@@ -18,6 +21,9 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="entities" element={<EntityBrowser />} />
             <Route path="entities/:id" element={<EntityDetail />} />
+            <Route path="suggest" element={<SuggestEntity />} />
+            <Route path="moderation" element={<ModerationDashboard />} />
+            <Route path="profile/:id" element={<UserProfile />} />
             <Route path="report" element={<IncidentReport />} />
             <Route path="map" element={<LocationMap />} />
           </Route>

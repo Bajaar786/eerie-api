@@ -22,10 +22,11 @@ npm run dev
 
 ## 🔐 Demo Accounts
 
-| Email | Password | Role |
-|-------|----------|------|
-| admin@eerie-api.com | admin123 | ADMIN |
-| investigator@eerie-api.com | investigator123 | INVESTIGATOR |
+| Email | Password | Role | Reputation |
+|-------|----------|------|------------|
+| admin@eerie-api.com | admin123 | ADMIN | 1000 |
+| moderator@eerie-api.com | moderator123 | MODERATOR | 500 |
+| contributor@eerie-api.com | contributor123 | CONTRIBUTOR | 250 |
 
 ## 📊 Database Stats
 
@@ -53,9 +54,19 @@ GET http://localhost:3000/api/entities/stats
 POST http://localhost:3000/api/auth/login
 Body: { "email": "admin@eerie-api.com", "password": "admin123" }
 
-# Calculate Compatibility
-POST http://localhost:3000/api/entities/compatibility
-Body: { "entity1Id": "uuid1", "entity2Id": "uuid2" }
+# Submit Entity Suggestion (authenticated)
+POST http://localhost:3000/api/suggestions
+Body: { "name": "Entity Name", "classification": "Cryptid", ... }
+
+# Vote on Incident (authenticated)
+POST http://localhost:3000/api/votes/incidents/:incidentId
+Body: { "voteType": "CREDIBLE" }
+
+# Get User Stats (authenticated)
+GET http://localhost:3000/api/users/me/stats
+
+# Get Leaderboard
+GET http://localhost:3000/api/users/leaderboard
 ```
 
 ## 🛠️ Useful Commands
@@ -124,6 +135,8 @@ eerie-api/
 | `/` | Dashboard with stats |
 | `/entities` | Browse & search entities |
 | `/entities/:id` | Entity details |
+| `/suggest` | Suggest new entity (auth required) |
+| `/moderation` | Review suggestions (MODERATOR+) |
 | `/report` | Report incident (auth required) |
 | `/map` | Location hotspots |
 | `/login` | Authentication |
@@ -184,6 +197,12 @@ npm install
 - ✅ Location management
 - ✅ Statistics dashboard
 - ✅ Authentication & authorization
+- ✅ **Community contributions**
+- ✅ **Entity suggestions system**
+- ✅ **Moderation dashboard**
+- ✅ **Incident voting & credibility**
+- ✅ **Reputation points system**
+- ✅ **User profiles & leaderboard**
 - ✅ Responsive design
 - ✅ Dark theme
 - ✅ Real-time filtering
@@ -218,8 +237,12 @@ npm install
 5. View Dashboard statistics
 6. Click "Entities" → Filter by "Cryptid"
 7. Click any entity for details
-8. Click "Report" → Fill incident form
-9. Click "Map" → View locations
+8. Click "Suggest" → Submit new entity
+9. Click "Moderate" → Review suggestions (MODERATOR+)
+10. Vote on incident credibility
+11. Check user reputation & leaderboard
+12. Click "Report" → Fill incident form
+13. Click "Map" → View locations
 
 ## 💡 Pro Tips
 

@@ -1,0 +1,136 @@
+.moderation-dashboard {
+  min-height: calc(100vh - 200px);
+}
+
+.moderation-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.moderation-header svg {
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.moderation-header h1 {
+  font-size: 36px;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.moderation-stats {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 40px;
+}
+
+.suggestions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+}
+
+.suggestion-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: all 0.2s;
+}
+
+.suggestion-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.suggestion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.suggestion-header h3 {
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.suggestion-description {
+  color: var(--text-secondary);
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.suggestion-meta {
+  padding: 16px 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.suggestion-meta .meta-item {
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.suggestion-meta strong {
+  color: var(--text-secondary);
+  margin-right: 8px;
+}
+
+.suggestion-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.review-modal {
+  max-width: 700px;
+}
+
+.review-section {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.review-section:last-of-type {
+  border-bottom: none;
+}
+
+.review-section strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+.review-section ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.review-section li {
+  padding: 8px 12px;
+  background: var(--background);
+  border-radius: 6px;
+  margin-bottom: 8px;
+}
+
+.review-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+  .suggestions-grid {
+    grid-template-columns: 1fr;
+  }
+}

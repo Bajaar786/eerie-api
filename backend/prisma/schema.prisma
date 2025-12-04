@@ -10,15 +10,20 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  username  String   @unique
-  password  String
-  role      String   @default("USER") // USER, INVESTIGATOR, ADMIN
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id              String   @id @default(uuid())
+  email           String   @unique
+  username        String   @unique
+  password        String
+  role            String   @default("VISITOR") // VISITOR, CONTRIBUTOR, MODERATOR, ADMIN
+  reputationScore Int      @default(0)
+  bio             String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  incidents Incident[]
+  incidents          Incident[]
+  entitySuggestions  EntitySuggestion[]
+  incidentVotes      IncidentVote[]
+  contributionLogs   ContributionLog[]
   
   @@map("users")
 }
@@ -35,6 +40,8 @@ model Entity {
   lastSighted    DateTime?
   status         String   @default("ACTIVE") // ACTIVE, DORMANT, CONTAINED, NEUTRALIZED, UNKNOWN
   imageUrl       String?
+  contributorId  String?  // User who contributed this entity
+  sourceCitation String?  // Source of information
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
@@ -64,17 +71,18 @@ model Location {
 }
 
 model Incident {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  date        DateTime
-  severity    Int      @default(1) // 1-10 scale
-  witnesses   Int      @default(0)
-  verified    Boolean  @default(false)
-  evidence    String   // JSON string array - URLs to evidence files
-  status      String   @default("INVESTIGATING") // REPORTED, INVESTIGATING, CONFIRMED, RESOLVED, DEBUNKED
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               String   @id @default(uuid())
+  title            String
+  description      String
+  date             DateTime
+  severity         Int      @default(1) // 1-10 scale
+  witnesses        Int      @default(0)
+  verified         Boolean  @default(false)
+  evidence         String   // JSON string array - URLs to evidence files
+  status           String   @default("INVESTIGATING") // REPORTED, INVESTIGATING, CONFIRMED, RESOLVED, DEBUNKED
+  credibilityScore Int      @default(0) // Net votes (credible - not credible)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   entityId   String
   entity     Entity   @relation(fields: [entityId], references: [id], onDelete: Cascade)
@@ -84,6 +92,8 @@ model Incident {
   
   reportedById String
   reportedBy   User   @relation(fields: [reportedById], references: [id], onDelete: Cascade)
+  
+  votes      IncidentVote[]
   
   @@map("incidents")
 }
@@ -104,8 +114,63 @@ model EntityLocation {
   @@map("entity_locations")
 }
 
+model EntitySuggestion {
+  id              String   @id @default(uuid())
+  name            String
+  classification  String
+  threatLevel     Int      @default(1)
+  description     String
+  abilities       String   // JSON string array
+  weaknesses      String   // JSON string array
+  firstSighted    DateTime?
+  lastSighted     DateTime?
+  imageUrl        String?
+  sourceCitation  String   // Required for suggestions
+  status          String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  reviewComment   String?  // Admin feedback
+  reviewedAt      DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  submittedById String
+  submittedBy   User   @relation(fields: [submittedById], references: [id], onDelete: Cascade)
+  
+  @@map("entity_suggestions")
+}
+
+model IncidentVote {
+  id         String   @id @default(uuid())
+  voteType   String   // CREDIBLE, NOT_CREDIBLE
+  createdAt  DateTime @default(now())
+
+  incidentId String
+  incident   Incident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+  
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@unique([incidentId, userId])
+  @@map("incident_votes")
+}
+
+model ContributionLog {
+  id             String   @id @default(uuid())
+  actionType     String   // ENTITY_SUGGESTED, ENTITY_APPROVED, INCIDENT_REPORTED, VOTE_CAST
+  pointsEarned   Int      @default(0)
+  description    String
+  createdAt      DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@map("contribution_logs")
+}
+
 // SQLite doesn't support enums, so we use String fields with comments
-// UserRole: USER, INVESTIGATOR, ADMIN
+// UserRole: VISITOR, CONTRIBUTOR, MODERATOR, ADMIN
 // EntityClassification: Apparition, Cryptid, Demonic, Extraterrestrial, Undead, Other
 // EntityStatus: ACTIVE, DORMANT, CONTAINED, NEUTRALIZED, UNKNOWN
 // IncidentStatus: REPORTED, INVESTIGATING, CONFIRMED, RESOLVED, DEBUNKED
+// SuggestionStatus: PENDING, APPROVED, REJECTED
+// VoteType: CREDIBLE, NOT_CREDIBLE
+// ActionType: ENTITY_SUGGESTED, ENTITY_APPROVED, INCIDENT_REPORTED, VOTE_CAST
