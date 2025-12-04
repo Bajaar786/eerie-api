@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: eerie-api-backend
+    env: node
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: CORS_ORIGIN
+        value: https://prismatic-gumption-e04f83.netlify.app
+
+databases:
+  - name: eerie-db
+    databaseName: eerie_api
+    user: eerie_user
+    plan: free
