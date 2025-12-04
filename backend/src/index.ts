@@ -31,8 +31,26 @@ app.use(express.urlencoded({ extended: true }));
 app.use(requestLogger);
 
 // Health check
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', message: 'Eerie API is running' });
+app.get('/health', async (req, res) => {
+  try {
+    const { PrismaClient } = await import('@prisma/client');
+    const prisma = new PrismaClient();
+    await prisma.$connect();
+    const entityCount = await prisma.entity.count();
+    await prisma.$disconnect();
+    res.json({ 
+      status: 'ok', 
+      message: 'Eerie API is running',
+      database: 'connected',
+      entities: entityCount
+    });
+  } catch (error) {
+    res.status(500).json({ 
+      status: 'error', 
+      message: 'Eerie API is running but database connection failed',
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
 });
 
 // API Routes

@@ -4,7 +4,9 @@ import type { Entity, Incident, Location, EntityStats, SearchFilters, AuthRespon
 
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || '/api',
+  //baseURL: import.meta.env.VITE_API_URL || '/api',
+  baseURL:'https://eerie-api-8.onrender.com',
+
   headers: {
     'Content-Type': 'application/json',
   },
